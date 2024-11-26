@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 const FeatureMovies = () => {
   const [movies, setMovies] = useState([]);
   const [activeMovieId, setActiveMovieId] = useState();
-  const [indexMovie, setIndexMovie] = useState(0);
 
   useEffect(() => {
     fetch("https://api.themoviedb.org/3/movie/popular", {
@@ -17,16 +16,13 @@ const FeatureMovies = () => {
       },
     }).then(async (res) => {
       const data = await res.json();
-      console.log(data);
       const popularMovies = data.results.slice(0, 4);
-      console.log(popularMovies);
       setMovies(popularMovies);
       setActiveMovieId(popularMovies[0].id);
-      //setIndexMovie(0);
     });
   }, []);
 
-  console.log("movies", movies);
+  //console.log("movies", movies);
   return (
     <div className="relative text-white">
       {movies
@@ -35,18 +31,10 @@ const FeatureMovies = () => {
           <Movie key={movie.id} data={movie} />
         ))}
 
-      {/* {movies
-        .filter((movie) => movie.id === activeMovieId)
-        .map((movie) => (
-          <Movie key={movie.id} data={movie} />
-        ))} */}
-
       <PaginateIndicator
         movies={movies}
         activeMovieId={activeMovieId}
         setActiveMovieId={setActiveMovieId}
-        // indexMovie={indexMovie}
-        // setIndexMovie={setIndexMovie}
       />
     </div>
   );
