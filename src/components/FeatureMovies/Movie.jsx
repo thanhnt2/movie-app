@@ -2,7 +2,7 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Movie = (props) => {
-  console.log({ props });
+  // console.log({ props });
   // const {
   //   data: { backdrop_path, title, release_date, overview },
   // } = props;

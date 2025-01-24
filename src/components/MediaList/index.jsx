@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MovieCard from "./MovieCard";
+import MovieCard from "../MovieCard";
 
 const MediaList = ({ title, tabs }) => {
   const [mediaList, setMediaList] = useState([]);
@@ -15,7 +15,7 @@ const MediaList = ({ title, tabs }) => {
       },
     }).then(async (res) => {
       const data = await res.json();
-      console.log({ data });
+      // console.log({ data });
       const trendingMediaList = data.results.slice(0, 12);
       setMediaList(trendingMediaList);
     });
@@ -36,9 +36,10 @@ const MediaList = ({ title, tabs }) => {
           ))}
         </ul>
       </div>
-      <div className="grid grid-cols-2 gap-4 lg:gap-6 sm:grid-cols-4 lg:grid-cols-6">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6 lg:gap-6">
         {mediaList.map((media) => (
           <MovieCard
+            id={media.id}
             key={media.id}
             title={media.original_title || media.original_name}
             releaseDate={media.release_date || media.first_air_date}
