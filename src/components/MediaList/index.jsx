@@ -1,25 +1,32 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../MovieCard";
+import useFetch from "../../hooks/useFetch";
 
 const MediaList = ({ title, tabs }) => {
-  const [mediaList, setMediaList] = useState([]);
+  // const [mediaList, setMediaList] = useState([]);
   const [activeMovieId, setActiveMovieId] = useState(tabs[0]?.id);
-  useEffect(() => {
-    const url = tabs.find((tab) => tab.id === activeMovieId)?.url;
-    fetch(url, {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MWZmOTJmMmFmOGZlNWNiNWMzYTRmMGI5MzJiYjI1YiIsIm5iZiI6MTczMTEzODQ5Mi4zMzAzNzExLCJzdWIiOiI2NzJjODM5MWVjNWM2ZDUyOWZjNTdkMmYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.Xkm3caVWn4F9h-wqpREVN6vviWmGEU_FV1Tyaejpp70",
-      },
-    }).then(async (res) => {
-      const data = await res.json();
-      // console.log({ data });
-      const trendingMediaList = data.results.slice(0, 12);
-      setMediaList(trendingMediaList);
-    });
-  }, [activeMovieId, tabs]);
+
+  const url = tabs.find((tab) => tab.id === activeMovieId)?.url;
+  const { data } = useFetch({ url });
+  const mediaList = (data.results || []).slice(0, 12);
+
+  // useEffect(() => {
+  //   const url = tabs.find((tab) => tab.id === activeMovieId)?.url;
+  //   fetch(url, {
+  //     method: "GET",
+  //     headers: {
+  //       accept: "application/json",
+  //       Authorization:
+  //         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MWZmOTJmMmFmOGZlNWNiNWMzYTRmMGI5MzJiYjI1YiIsIm5iZiI6MTczMTEzODQ5Mi4zMzAzNzExLCJzdWIiOiI2NzJjODM5MWVjNWM2ZDUyOWZjNTdkMmYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.Xkm3caVWn4F9h-wqpREVN6vviWmGEU_FV1Tyaejpp70",
+  //     },
+  //   }).then(async (res) => {
+  //     const data = await res.json();
+  //     // console.log({ data });
+  //     const trendingMediaList = data.results.slice(0, 12);
+  //     setMediaList(trendingMediaList);
+  //   });
+  // }, [activeMovieId, tabs]);
+
   return (
     <div className="bg-black px-8 py-10 text-[1.2vw] text-white">
       <div className="mb-6 flex items-center gap-4">
