@@ -1,6 +1,8 @@
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ImageComponent from "../ImageComponent";
+import { useModalContext } from "../../context/ModalProvider";
+import { Link } from "react-router-dom";
 
 const Movie = (props) => {
   // console.log({ props });
@@ -8,13 +10,13 @@ const Movie = (props) => {
   //   data: { backdrop_path, title, release_date, overview },
   // } = props;
 
-  
+  const { openPopup } = useModalContext();
 
   return (
     <div>
       <ImageComponent
-        src={`https://image.tmdb.org/t/p/original${props.data?.backdrop_path}`}
-        className="aspect-video brightness-50 w-full"
+        src={props.data?.backdrop_path && `https://image.tmdb.org/t/p/original${props.data?.backdrop_path}`}
+        className="aspect-video w-full brightness-50"
         width={900}
         height={500}
       />
@@ -31,13 +33,26 @@ const Movie = (props) => {
           <p>{props.data?.overview}</p>
         </div>
         <div className="mt-4">
-          <button className="mr-2 rounded bg-white px-4 py-2 text-10 text-black lg:text-lg">
+          <button
+            className="mr-2 rounded bg-white px-4 py-2 text-10 text-black lg:text-lg"
+            onClick={() => {
+              openPopup(
+                <iframe
+                  title="trailer"
+                  src={`https://www.youtube.com/embed/${props?.trailerVideoKey}`}
+                  className="aspect-video w-[50vw]"
+                />,
+              );
+            }}
+          >
             <FontAwesomeIcon icon={faPlay} />
             Trailer
           </button>
-          <button className="rounded bg-slate-300/35 px-4 py-2 text-[10px] lg:text-lg">
-            View Detail
-          </button>
+          <Link to={`/movie/${props?.data.id}`}>
+            <button className="rounded bg-slate-300/35 px-4 py-2 text-[10px] lg:text-lg">
+              View Detail
+            </button>
+          </Link>
         </div>
       </div>
     </div>

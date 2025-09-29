@@ -15,7 +15,7 @@ const MovieDetail = () => {
   //const [relatedMovies, setrelatedMovies] = useState([]);
 
   const { data: movieInfo, isLoading } = useFetch({
-    url: `/movie/${id}?append_to_response=release_dates,credits`,
+    url: `/movie/${id}?append_to_response=release_dates,credits,videos`,
   });
 
   // useEffect(() => {
@@ -98,14 +98,20 @@ const MovieDetail = () => {
         point={movieInfo.vote_average}
         certification={certification}
         crews={crews}
+        trailerVideoKey={
+          (movieInfo.videos?.results || []).find(
+            (video) => video.type == "Trailer",
+          )?.key
+        }
       />
-      <div className="bg-black text-[1.2vw]">
-        <div className="mx-auto flex max-w-screen-xl gap-6 px-6 py-10 text-white sm:gap-8">
+      <div className="bg-black text-[1.2vw] text-white">
+        <div className="container">
           <div className="flex-[2]">
             <ActorList actors={movieInfo.credits?.cast || []} />
             <RelatedMediaList
               mediaList={relatedMovies}
               isLoading={isRelatedMoviesLoading}
+              title="More like this"
             />
           </div>
           <div className="flex-1">

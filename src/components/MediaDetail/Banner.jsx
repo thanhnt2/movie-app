@@ -3,6 +3,7 @@ import CircularProgressBar from "../CircularProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import ImageComponent from "../ImageComponent";
+import { useModalContext } from "../../context/ModalProvider";
 
 const Banner = ({
   title,
@@ -14,9 +15,10 @@ const Banner = ({
   genres,
   point = 0,
   overview,
+  trailerVideoKey,
 }) => {
-  //console.log({mediaInfo})
-
+  const { openPopup } = useModalContext();
+  if (!title) return null;
   // const certification = (
   //   (mediaInfo.release_dates?.results || []).find(
   //     (ret) => ret.iso_3166_1 === "US",
@@ -30,14 +32,13 @@ const Banner = ({
   // console.log({ crews });
 
   const groupedCrews = groupBy(crews, "job");
-  // console.log(groupedCrews);
 
   return (
-    <div className="relative overflow-hidden text-white bg-black shadow-sm shadow-slate-800">
+    <div className="relative overflow-hidden bg-black text-white shadow-sm shadow-slate-800">
       <ImageComponent
-      width={1200}
-      height={800}
-        className="absolute inset-0 brightness-[.2] aspect-video w-full"
+        width={1200}
+        height={800}
+        className="absolute inset-0 aspect-video w-full brightness-[.2]"
         src={`https://image.tmdb.org/t/p/original${backdropPath}`}
       />
       <div className="relative mx-auto flex max-w-7xl gap-6 px-6 py-10 lg:gap-8">
@@ -69,7 +70,17 @@ const Banner = ({
               />
               Rating
             </div>
-            <button>
+            <button
+              onClick={() => {
+                openPopup(
+                  <iframe
+                    title="trailer"
+                    src={`https://www.youtube.com/embed/${trailerVideoKey}`}
+                    className="aspect-video w-[50vw]"
+                  />,
+                );
+              }}
+            >
               <FontAwesomeIcon icon={faPlay} className="mr-1" />
               Trailer
             </button>
