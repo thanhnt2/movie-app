@@ -1,12 +1,15 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/HomePage.jsx";
-import MovieDetail from "./pages/MovieDetail.jsx";
 import RootLayout from "./pages/RootLayout.jsx";
-import TVShowDetail from "./pages/TVShowDetail";
 import ModalProvider from "./context/ModalProvider";
-import PeoplePage from "./pages/PeoplePage";
+
+import { lazy } from "react";
+import SearchPage from "./pages/SearchPage";
+const MovieDetail = lazy(() => import("./pages/MovieDetail.jsx"));
+const HomePage = lazy(() => import("./pages/HomePage.jsx"));
+const TVShowDetail = lazy(() => import("./pages/TVShowDetail.jsx"));
+const PeoplePage = lazy(() => import("./pages/PeoplePage.jsx"));
 
 const router = createBrowserRouter([
   {
@@ -40,6 +43,10 @@ const router = createBrowserRouter([
           return res;
         },
       },
+      {
+        path:"/search",
+        element:<SearchPage />
+      }
     ],
   },
 ]);
