@@ -1,5 +1,6 @@
 import { useWatch } from "react-hook-form";
 import useFetch from "../../../hooks/useFetch";
+import { useEffect } from "react";
 
 const GenresInput = ({ control, onChange, value = [] }) => {
   const mediaType = useWatch({ name: "mediaType", control });
@@ -7,7 +8,12 @@ const GenresInput = ({ control, onChange, value = [] }) => {
     { url: `/genre/${mediaType}/list` },
     { enabled: mediaType },
   );
-  console.log({ data, mediaType });
+  // console.log({ data, mediaType });
+
+  useEffect(() => {
+    onChange([]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mediaType]);
 
   return (
     <div className="flex flex-wrap gap-1">

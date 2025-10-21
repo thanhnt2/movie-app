@@ -2,16 +2,38 @@ import { useForm } from "react-hook-form";
 import FormField from "./FormField";
 import MediaTypeInput from "./FormInputs/MediaTypeInput";
 import GenresInput from "./FormInputs/GenresInput";
+import RatingInput from "./FormInputs/RatingInput";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
-const SearchForm = () => {
-  const { handleSubmit, control, register } = useForm();
+const SearchForm = ({ setSearchFormValues }) => {
+  const [searchParams] = useSearchParams();
+  const mediaType = searchParams.get("mediaType");
+  console.log({ mediaType });
+
+  const { handleSubmit, control, watch } = useForm({
+    defaultValues: {
+      mediaType: ["tv", "movie"].includes(mediaType) ? mediaType : "movie",
+      genres: [],
+      rating: "All",
+    },
+  });
 
   const onSubmit = (data) => {
-    console.log("dataform" + JSON.stringify(data));
+    console.log({ formdata: data });
   };
+
+  const formValues = watch();
+  //console.log({ formValues });
+
+  useEffect(() => {
+    setSearchFormValues(formValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(formValues)]);
+
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="rounded-lg border p-4 shadow-md">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           name="mediaType"
           label="Media Type"
@@ -24,8 +46,12 @@ const SearchForm = () => {
           control={control}
           Component={GenresInput}
         />
-        <br />
-        <input type="submit" />
+        <FormField
+          name="rating"
+          label="Rating"
+          control={control}
+          Component={RatingInput}
+        />
       </form>
     </div>
   );

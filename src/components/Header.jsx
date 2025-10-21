@@ -10,12 +10,12 @@ const Header = () => {
           <img src="/netflix.png" className="w-16 sm:w-28" />
         </Link>
 
-        <a href="#" className="lg:text-xl">
-          Phim
-        </a>
-        <a href="#" className="lg:text-xl">
-          Truyền hình
-        </a>
+        <Link  to="/search?mediaType=movie" className="lg:text-xl">
+          Movie
+        </Link >
+        <Link  to="/search?mediaType=tv" className="lg:text-xl">
+          TV Show
+        </Link >
       </div>
       <div>
         <Link to="/search">
