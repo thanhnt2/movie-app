@@ -3,8 +3,8 @@ import MovieCard from "../MovieCard";
 
 const RelatedMediaList = ({ mediaList = [], isLoading, title }) => {
   return (
-    <div className="mt-6">
-      <p className="mb-4 text-[1.4vw] font-bold">{title}</p>
+    <div>
+      {title && <p className="mb-4 text-[1.4vw] font-bold">{title}</p>}
       {isLoading ? (
         <Loading />
       ) : (
